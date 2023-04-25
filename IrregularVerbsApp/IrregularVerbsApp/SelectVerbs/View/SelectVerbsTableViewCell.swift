@@ -100,7 +100,7 @@ final class  SelectVerbsTableViewCell: UITableViewCell {
     }
     
     //MARK: -- Private methods
-    func setupUI() {
+    private func setupUI() {
         selectionStyle = .none
         
         infinitiveView.addSubviews([infinitiveLabel, translationLabel])
@@ -110,7 +110,7 @@ final class  SelectVerbsTableViewCell: UITableViewCell {
         setupConstraints()
     }
     
-    func setupConstraints() {
+   private func setupConstraints() {
         checkboxImageView.snp.makeConstraints { make in
             make.width.height.equalTo(20)
             make.centerY.equalToSuperview()

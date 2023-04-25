@@ -9,16 +9,16 @@ import UIKit
 
 final class SelectVerbsViewController: UITableViewController {
     //MARK: -- Properties
-    private var dataSource = IrregularVerbs()
+    private var dataSource = IrregularVerbs.shared
     
     //MARK: -- Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        dataSource.selectedVerbs = dataSource.verbs
         title = "Select verbs".localized
         view.backgroundColor = .white
         tableView.register(SelectVerbsTableViewCell.self, forCellReuseIdentifier: "SelectVerbsTableViewCell")
-        dataSource.configureVerbs()
     }
     
     //MARK: -- Private methods
