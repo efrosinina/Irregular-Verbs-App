@@ -26,17 +26,14 @@ final class  SelectVerbsTableViewCell: UITableViewCell {
     //MARK: -- GUI Variables
     private lazy var checkboxImageView: UIImageView = {
         let view = UIImageView()
-        
         view.image = State.unselect.image
         view.contentMode = .center
-        
         
         return view
     }()
     
     private lazy var stackView: UIStackView = {
         let view = UIStackView()
-        
         view.axis = .horizontal // Вертикальный стэк
         view.distribution = .fillEqually // Выравнивание элементов в стэке
         view.alignment = .center // вертикальное выравнивание контента в стэке
@@ -110,11 +107,12 @@ final class  SelectVerbsTableViewCell: UITableViewCell {
         setupConstraints()
     }
     
-   private func setupConstraints() {
+    private func setupConstraints() {
         checkboxImageView.snp.makeConstraints { make in
             make.width.height.equalTo(20)
             make.centerY.equalToSuperview()
             make.leading.equalToSuperview().inset(20)
+            
         }
         infinitiveLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()

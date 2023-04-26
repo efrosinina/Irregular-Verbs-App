@@ -13,7 +13,6 @@ final class LearnVerbsViewController: UIViewController {
     //MARK: -- GUI Variables
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        
         scrollView.showsVerticalScrollIndicator = false
         
         return scrollView
@@ -23,7 +22,6 @@ final class LearnVerbsViewController: UIViewController {
     
     private lazy var scoreLabel: UILabel = {
         let label = UILabel()
-        
         label.text = "Your score is \(score)"
         label.font = .boldSystemFont(ofSize: 20)
         label.textColor = .black
@@ -34,7 +32,6 @@ final class LearnVerbsViewController: UIViewController {
     
     private lazy var infinitiveLabel: UILabel = {
         let label = UILabel()
-        
         label.font = .boldSystemFont(ofSize: 28)
         label.textColor = .black
         label.textAlignment = .center
@@ -44,7 +41,6 @@ final class LearnVerbsViewController: UIViewController {
     
     private lazy var pastSimpleLabel: UILabel = {
         let label = UILabel()
-        
         label.font = .systemFont(ofSize: 14)
         label.textColor = .systemGray4
         label.text = "Past simple"
@@ -54,7 +50,6 @@ final class LearnVerbsViewController: UIViewController {
     
     private lazy var participleLabel: UILabel = {
         let label = UILabel()
-        
         label.font = .systemFont(ofSize: 14)
         label.textColor = .systemGray4
         label.text = "Past participle"
@@ -64,7 +59,6 @@ final class LearnVerbsViewController: UIViewController {
     
     private lazy var pastSimpleTextField: UITextField = {
         let textField = UITextField()
-        
         textField.borderStyle = .roundedRect
         textField.delegate = self
         
@@ -73,7 +67,6 @@ final class LearnVerbsViewController: UIViewController {
     
     private lazy var participleTextField: UITextField = {
         let textField = UITextField()
-        
         textField.borderStyle = .roundedRect
         textField.delegate = self
         
@@ -82,7 +75,6 @@ final class LearnVerbsViewController: UIViewController {
     
     private lazy var checkButton: UIButton = {
         let button = UIButton()
-        
         button.layer.cornerRadius = 10
         button.backgroundColor = .systemGray4
         button.setTitle("Check".localized, for: .normal)
@@ -94,12 +86,11 @@ final class LearnVerbsViewController: UIViewController {
     
     private lazy var skipButton: UIButton = {
         let button = UIButton()
-        
         button.layer.cornerRadius = 10
         button.backgroundColor = .systemGray4
         button.setTitle("Skip".localized, for: .normal)
         button.setTitleColor(.black, for: .normal)
-        //button.addTarget(self, action: #selector(skipVerb), for: .touchUpInside)
+        button.addTarget(self, action: #selector(skipVerb), for: .touchUpInside)
         
         return button
     }()
@@ -136,22 +127,36 @@ final class LearnVerbsViewController: UIViewController {
         
         title = "Learn verbs".localized
         setupUI()
-        registerForKeyboardNotification()
-        unregisterForKeyboardNotification()
         hideKeyboardWhenTappedAround()
         
         infinitiveLabel.text = dataSource.first?.infinitive
     }
     
-    //MARK: -- Private methods
-   // @objc
-   // private func skipVerb() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-    //}
+        registerForKeyboardNotification()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        unregisterForKeyboardNotification()
+    }
+    
+    //MARK: -- Private methods
+    @objc
+    private func skipVerb() {
+        count += 1
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+            self?.configureScore()
+        }
+    }
     
     private func configureScore() {
         scoreLabel.text = "Your score is \(score)"
     }
+    
     private func presentAlert() {
         let alert = UIAlertController(title: "Training is over".localized,
                                       message: "Your score is \(score)".localized,
@@ -175,7 +180,7 @@ final class LearnVerbsViewController: UIViewController {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
                 self?.configureScore()
             }
-
+            
         } else {
             checkButton.backgroundColor = .red
             checkButton.setTitle("Try again".localized, for: .normal)
@@ -188,7 +193,6 @@ final class LearnVerbsViewController: UIViewController {
         scrollView.addSubview(contentView)
         contentView.addSubviews([scoreLabel, infinitiveLabel, pastSimpleLabel, participleLabel,
                                  pastSimpleTextField, participleTextField, checkButton, skipButton])
-        
         setupConstraints()
     }
     
@@ -245,7 +249,6 @@ final class LearnVerbsViewController: UIViewController {
 
 //MARK: -- UITextFieldDelegate
 extension LearnVerbsViewController: UITextFieldDelegate {
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if pastSimpleTextField.isFirstResponder {
             participleTextField.becomeFirstResponder()
@@ -261,11 +264,12 @@ private extension LearnVerbsViewController {
     func registerForKeyboardNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
                                                name: UIResponder.keyboardWillShowNotification, object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector:  #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     func unregisterForKeyboardNotification() {
-        NotificationCenter.default.addObserver(self, selector:  #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc

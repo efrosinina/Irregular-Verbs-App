@@ -21,9 +21,15 @@ final class SelectVerbsViewController: UITableViewController {
         tableView.register(SelectVerbsTableViewCell.self, forCellReuseIdentifier: "SelectVerbsTableViewCell")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
+    }
+    
     //MARK: -- Private methods
     private func isSelected(verb: Verb) -> Bool {
-        dataSource.selectedVerbs.contains(where: { $0.infinitive == verb.infinitive })
+        return dataSource.selectedVerbs.contains(where: { $0.infinitive == verb.infinitive })
     }
 }
 
