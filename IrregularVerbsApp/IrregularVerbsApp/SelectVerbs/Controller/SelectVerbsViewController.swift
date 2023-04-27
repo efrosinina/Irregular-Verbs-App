@@ -15,7 +15,6 @@ final class SelectVerbsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dataSource.selectedVerbs = dataSource.verbs
         title = "Select verbs".localized
         view.backgroundColor = .white
         tableView.register(SelectVerbsTableViewCell.self, forCellReuseIdentifier: "SelectVerbsTableViewCell")
@@ -24,7 +23,6 @@ final class SelectVerbsViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        tableView.reloadData()
     }
     
     //MARK: -- Private methods

@@ -17,7 +17,7 @@ final class IrregularVerbs {
     
     //MARK: -- Properties
     private(set) var verbs: [Verb] = []
-    var selectedVerbs: [Verb] = []
+    var selectedVerbs: [Verb] = [] 
     
     //MARK: -- Methods
     private func configureVerbs() {
