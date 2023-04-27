@@ -148,9 +148,7 @@ final class LearnVerbsViewController: UIViewController {
     @objc
     private func skipVerb() {
         count += 1
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-            self?.configureScore()
-        }
+        configureScore()
     }
     
     private func configureScore() {
@@ -176,11 +174,7 @@ final class LearnVerbsViewController: UIViewController {
             let isSecondAttempt = checkButton.backgroundColor == .red
             score += isSecondAttempt ? 0 : 1
             count += 1
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-                self?.configureScore()
-            }
-            
+            configureScore()
         } else {
             checkButton.backgroundColor = .red
             checkButton.setTitle("Try again".localized, for: .normal)
