@@ -9,7 +9,7 @@ import UIKit
 
 final class SelectVerbsViewController: UITableViewController {
     //MARK: -- Properties
-    private var dataSource = IrregularVerbs()
+    private var dataSource = IrregularVerbs.shared
     
     //MARK: -- Life cycle
     override func viewDidLoad() {
@@ -18,12 +18,16 @@ final class SelectVerbsViewController: UITableViewController {
         title = "Select verbs".localized
         view.backgroundColor = .white
         tableView.register(SelectVerbsTableViewCell.self, forCellReuseIdentifier: "SelectVerbsTableViewCell")
-        dataSource.configureVerbs()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
     }
     
     //MARK: -- Private methods
     private func isSelected(verb: Verb) -> Bool {
-        dataSource.selectedVerbs.contains(where: { $0.infinitive == verb.infinitive })
+        return dataSource.selectedVerbs.contains(where: { $0.infinitive == verb.infinitive })
     }
 }
 
