@@ -112,7 +112,6 @@ final class  SelectVerbsTableViewCell: UITableViewCell {
             make.width.height.equalTo(20)
             make.centerY.equalToSuperview()
             make.leading.equalToSuperview().inset(20)
-            
         }
         
         infinitiveLabel.snp.makeConstraints { make in
